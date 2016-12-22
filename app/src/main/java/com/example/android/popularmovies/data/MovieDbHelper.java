@@ -10,7 +10,7 @@ import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 public class MovieDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "movie.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     public MovieDbHelper(Context context) {
 
@@ -22,9 +22,9 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE "
 
-                + MovieContract.MovieEntry.TABLE_MOVIE + " ("
+                + MovieEntry.TABLE_MOVIE + " ("
 
-                + MovieContract.MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 
                 + MovieEntry.COL_TMDB_ID + " INTEGER UNIQUE NOT NULL, "
                 + MovieEntry.COL_TITLE + " TEXT NOT NULL, "
@@ -43,9 +43,11 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 + MovieEntry.COL_BUDGET + " INTEGER , "
                 + MovieEntry.COL_REVENUE + " INTEGER , "
 
-                + MovieEntry.COL_IS_POPULAR + " INTEGER NOT NULL, "
-                + MovieEntry.COL_IS_TOP_RATED + " INTEGER NOT NULL, "
-                + MovieEntry.COL_IS_FAVORITE + " INTEGER NOT NULL"
+                + MovieEntry.COL_IS_POPULAR + " INTEGER, "
+                + MovieEntry.COL_IS_TOP_RATED + " INTEGER, "
+                + MovieEntry.COL_IS_NOW_PLAYING + " INTEGER, "
+                + MovieEntry.COL_IS_UPCOMING + " INTEGER, "
+                + MovieEntry.COL_IS_FAVORITE + " INTEGER"
 
                 + ");");
     }

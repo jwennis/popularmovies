@@ -2,5 +2,16 @@
 
     <string name="app_name">Popular Movies</string>
 
+    <!-- Settings menu -->
+    <string name="action_popular">Popular</string>
+    <string name="action_top_rated">Top Rated</string>
+    <string name="action_now_playing">Now Playing</string>
+    <string name="action_upcoming">Upcoming</string>
+    <string name="action_favorites">Favorites</string>
+
     <string name="content_authority">com.example.android.popularmovies</string>
+
+    <string name="poster_root">https://image.tmdb.org/t/p/w500/</string>
+    <string name="backdrop_root">https://image.tmdb.org/t/p/w1000/</string>
+
 </resources>

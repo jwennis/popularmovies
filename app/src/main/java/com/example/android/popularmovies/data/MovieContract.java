@@ -35,6 +35,8 @@ public class MovieContract {
 
         public static final String COL_IS_POPULAR = "popular";
         public static final String COL_IS_TOP_RATED = "top_rated";
+        public static final String COL_IS_NOW_PLAYING = "now_playing";
+        public static final String COL_IS_UPCOMING = "upcoming";
         public static final String COL_IS_FAVORITE = "favorite";
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(TABLE_MOVIE).build();

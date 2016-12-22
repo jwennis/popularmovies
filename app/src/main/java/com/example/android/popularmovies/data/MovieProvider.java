@@ -10,10 +10,10 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
-import java.util.List;
 
 public class MovieProvider extends ContentProvider {
 
@@ -226,7 +226,9 @@ public class MovieProvider extends ContentProvider {
 
                         } catch(SQLiteConstraintException e) {
 
-                            // Entry already exists in the database
+                            String tmdbId = itemValues.getAsString(MovieContract.MovieEntry.COL_TMDB_ID);
+
+                            numUpdated += update(uri, itemValues, MovieEntry.COL_TMDB_ID + " = ?", new String[] { tmdbId });
                         }
 
                         if (_id != -1) {
@@ -250,6 +252,7 @@ public class MovieProvider extends ContentProvider {
                     getContext().getContentResolver().notifyChange(uri, null);
                 }
 
+                Log.v("MOVIES", "Num inserted = " + numInserted);
                 return numInserted;
             }
 

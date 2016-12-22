@@ -1,5 +1,8 @@
 package com.example.android.popularmovies;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +11,8 @@ import android.util.Log;
 
 import com.example.android.popularmovies.async.MovieApiTask;
 import com.example.android.popularmovies.data.Movie;
+import com.example.android.popularmovies.data.MovieContract;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -36,7 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        init();
+        Cursor cursor = getContentResolver().query(MovieEntry.CONTENT_URI, null, null,null,  null);
+
+        Log.v(LOG_TAG, DatabaseUtils.dumpCursorToString(cursor));
+
+        //init();
     }
 
     private void init() {
@@ -48,10 +57,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.v(LOG_TAG, "# movies = " + movies.size());
 
-                for(Movie movie : movies) {
+                ContentValues[] values = new ContentValues[ movies.size() ];
 
-                    Log.v(LOG_TAG, movie.getTitle());
+                for(int i = 0; i < movies.size(); i++) {
+
+                    values[i] = movies.get(i).getValues();
                 }
+
+                getContentResolver().bulkInsert(MovieEntry.CONTENT_URI, values);
             }
         };
     }

@@ -11,7 +11,7 @@
 
     <string name="content_authority">com.example.android.popularmovies</string>
 
-    <string name="poster_root">https://image.tmdb.org/t/p/w500/</string>
-    <string name="backdrop_root">https://image.tmdb.org/t/p/w1000/</string>
+    <string name="poster_root">https://image.tmdb.org/t/p/w500</string>
+    <string name="backdrop_root">https://image.tmdb.org/t/p/w1000</string>
 
 </resources>

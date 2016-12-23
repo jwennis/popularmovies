@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -13,10 +12,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridView;
 
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.async.MovieApiTask;
+import com.example.android.popularmovies.ui.PosterAdapter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -27,7 +31,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final int MOVIE_LOADER_ID = 0x13;
 
+    private PosterAdapter mAdapter;
     private String mFilter;
+
+    @BindView(R.id.discover_poster_grid)
+    GridView poster_grid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
 
         if(savedInstanceState != null) {
 
@@ -125,9 +135,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        String[] projection = new String[] { MovieEntry._ID, MovieEntry.COL_POSTER_PATH, MovieEntry.COL_TITLE,
-                MovieEntry.COL_IS_POPULAR,MovieEntry.COL_IS_TOP_RATED,MovieEntry.COL_IS_NOW_PLAYING,MovieEntry.COL_IS_UPCOMING };
-
+        String[] projection = null;
         String[] selectionArgs = new String[] { "1" };
         String selection = null, orderBy = null;
 
@@ -158,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case Movie.PARAM_UPCOMING: {
 
                 selection = MovieEntry.COL_IS_UPCOMING + " = ?";
+                // TODO: orderBy date, nearest first
 
                 break;
             }
@@ -165,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case Movie.PARAM_FAVORITES: {
 
                 selection = MovieEntry.COL_IS_FAVORITE + " = ?";
+                // TODO: orderBy date favorited, newest first
 
                 break;
             }
@@ -177,11 +187,29 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        if(data.getCount() == 0) {
+        if(loader.getId() != MOVIE_LOADER_ID) { return; }
 
-            if(mFilter == Movie.PARAM_FAVORITES) {
+        if(data.getCount() > 0) {
 
-                // no favorites :(
+            if(mAdapter == null) {
+
+                mAdapter = new PosterAdapter(this, data);
+                poster_grid.setAdapter(mAdapter);
+
+            } else {
+
+                mAdapter.swapCursor(data);
+            }
+
+            poster_grid.smoothScrollToPosition(0);
+
+        } else {
+
+            if(mFilter.equals(Movie.PARAM_FAVORITES)) {
+
+                // TODO: no favorites message
+
+                onLoaderReset(loader);
 
             } else {
 
@@ -194,13 +222,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+        if(loader.getId() == MOVIE_LOADER_ID) {
+
+            if (mAdapter != null) {
+
+                mAdapter.swapCursor(null);
+            }
+        }
     }
 
 
     private void reload() {
 
-        getSupportLoaderManager().restartLoader(0, null, this);
+        getSupportLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
     }
+
 
     private void fetchMovies() {
 
@@ -208,8 +244,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected void onPostExecute(List<Movie> movies) {
-
-                Log.v(LOG_TAG, "onPostExecute # movies = " + movies.size());
 
                 ContentValues[] values = new ContentValues[ movies.size() ];
 

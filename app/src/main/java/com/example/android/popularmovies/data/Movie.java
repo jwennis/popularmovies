@@ -4,12 +4,14 @@ import java.util.List;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 
-public class Movie {
+public class Movie implements Parcelable {
 
     public static final String PARAM_POPULAR = "popular";
     public static final String PARAM_TOP_RATED = "top_rated";
@@ -48,6 +50,7 @@ public class Movie {
     public Movie() {
 
     }
+
 
     public Movie(Cursor data) {
 
@@ -133,6 +136,32 @@ public class Movie {
         }
     }
 
+
+    public Movie(Parcel in) {
+
+        id = in.readInt();
+        title = in.readString();
+        release_date = in.readString();
+        overview = in.readString();
+        poster_path = in.readString();
+        backdrop_path = in.readString();
+        vote_count = in.readInt();
+        vote_average = in.readDouble();
+        popularity = in.readDouble();
+        genreString = in.readString();
+        imdb_id = in.readString();
+        tagline = in.readString();
+        runtime = in.readInt();
+        budget = in.readInt();
+        revenue = in.readInt();
+        isPopular = in.readInt() == 1;
+        isTopRated = in.readInt() == 1;
+        isNowPlaying = in.readInt() == 1;
+        isUpcoming = in.readInt() == 1;
+        isFavorite = in.readInt() == 1;
+    }
+
+
     public void print() {
 
         Log.v("MOVIES", "[ID] " + id);
@@ -177,6 +206,7 @@ public class Movie {
         Log.v("MOVIES", "[UPCOMING?] " + isUpcoming);
         Log.v("MOVIES", "[FAVORITE?] " + isFavorite);
     }
+
 
     public String getTitle() {
 
@@ -297,4 +327,53 @@ public class Movie {
 
         return values;
     }
+
+
+    @Override
+    public int describeContents() {
+
+        return 0;
+    }
+
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+
+        out.writeInt(id);
+        out.writeString(title);
+        out.writeString(release_date);
+        out.writeString(overview);
+        out.writeString(poster_path);
+        out.writeString(backdrop_path);
+        out.writeInt(vote_count);
+        out.writeDouble(vote_average);
+        out.writeDouble(popularity);
+        out.writeString(getGenres());
+        out.writeString(imdb_id != null && !imdb_id.isEmpty() ? imdb_id : "");
+        out.writeString(tagline != null && !tagline.isEmpty() ? tagline : "");
+        out.writeInt(runtime);
+        out.writeInt(budget);
+        out.writeInt(revenue);
+        out.writeInt(isPopular ? 1 : 0);
+        out.writeInt(isTopRated ? 1 : 0);
+        out.writeInt(isNowPlaying ? 1 : 0);
+        out.writeInt(isUpcoming ? 1 : 0);
+        out.writeInt(isFavorite ? 1 : 0);
+    }
+
+
+    public final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+
+        @Override
+        public Movie createFromParcel(Parcel parcel) {
+
+            return new Movie(parcel);
+        }
+
+        @Override
+        public Movie[] newArray(int i) {
+
+            return new Movie[i];
+        }
+    };
 }

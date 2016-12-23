@@ -13,6 +13,8 @@ import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 public class Movie implements Parcelable {
 
+    public static final String PARAM_MOVIE_PARCEL = "PARAM_MOVIE_PARCEL";
+
     public static final String PARAM_POPULAR = "popular";
     public static final String PARAM_TOP_RATED = "top_rated";
     public static final String PARAM_NOW_PLAYING = "now_playing";
@@ -362,7 +364,7 @@ public class Movie implements Parcelable {
     }
 
 
-    public final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
 
         @Override
         public Movie createFromParcel(Parcel parcel) {

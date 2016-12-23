@@ -3,6 +3,7 @@ package com.example.android.popularmovies;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
@@ -185,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(Loader<Cursor> loader, final Cursor data) {
 
         if(loader.getId() != MOVIE_LOADER_ID) { return; }
 
@@ -196,6 +199,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 mAdapter = new PosterAdapter(this, data);
                 poster_grid.setAdapter(mAdapter);
 
+                poster_grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                        data.moveToPosition(position);
+
+                        Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
+                        detailIntent.putExtra(Movie.PARAM_MOVIE_PARCEL, new Movie(data));
+
+                        startActivity(detailIntent);
+                    }
+                });
             } else {
 
                 mAdapter.swapCursor(data);

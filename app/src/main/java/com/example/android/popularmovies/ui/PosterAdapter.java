@@ -48,7 +48,6 @@ public class PosterAdapter extends CursorAdapter {
         ButterKnife.bind(this, view);
 
         Movie movie = new Movie(data);
-        movie.print();
 
         int tIndex = data.getColumnIndex(MovieEntry.COL_TITLE);
         final String title = data.getString(tIndex);
@@ -60,14 +59,5 @@ public class PosterAdapter extends CursorAdapter {
                 .placeholder(R.drawable.poster_placeholder)
                 .centerCrop()
                 .into(poster);
-
-        view.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Snackbar.make(view, title, Snackbar.LENGTH_SHORT).show();
-            }
-        });
     }
 }

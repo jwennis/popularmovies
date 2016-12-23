@@ -22,6 +22,5 @@ public class DetailActivity extends AppCompatActivity {
             mMovie = getIntent().getExtras().getParcelable(Movie.PARAM_MOVIE_PARCEL);
         }
 
-        mMovie.print();
     }
 }

@@ -216,6 +216,42 @@ public class Movie implements Parcelable {
     }
 
 
+    public String getBackdropPath() {
+
+        return backdrop_path;
+    }
+
+
+    public String getPosterPath() {
+
+        return poster_path;
+    }
+
+
+    public String getSynopsis() {
+
+        return overview;
+    }
+
+
+    public int getYear() {
+
+        return Integer.parseInt(release_date.substring(0, 4));
+    }
+
+
+    public double getRating() {
+
+        return vote_average;
+    }
+
+
+    public int getNumVotes() {
+
+        return vote_count * 10;
+    }
+
+
     public String getGenres() {
 
         if(genreString != null && !genreString.isEmpty()) {

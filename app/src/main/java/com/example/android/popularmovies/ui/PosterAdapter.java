@@ -49,13 +49,8 @@ public class PosterAdapter extends CursorAdapter {
 
         Movie movie = new Movie(data);
 
-        int tIndex = data.getColumnIndex(MovieEntry.COL_TITLE);
-        final String title = data.getString(tIndex);
-
-        int pIndex = data.getColumnIndex(MovieEntry.COL_POSTER_PATH);
-
         Glide.with(context)
-                .load(POSTER_ROOT + data.getString(pIndex))
+                .load(POSTER_ROOT + movie.getPosterPath())
                 .placeholder(R.drawable.poster_placeholder)
                 .centerCrop()
                 .into(poster);

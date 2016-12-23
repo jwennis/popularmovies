@@ -17,10 +17,23 @@ public class DetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_detail);
 
-        if(savedInstanceState == null) {
+        if(savedInstanceState != null) {
+
+            mMovie = savedInstanceState.getParcelable(Movie.PARAM_MOVIE_PARCEL);
+
+        } else {
 
             mMovie = getIntent().getExtras().getParcelable(Movie.PARAM_MOVIE_PARCEL);
         }
 
+        mMovie.print();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putParcelable(Movie.PARAM_MOVIE_PARCEL, mMovie);
+
+        super.onSaveInstanceState(outState);
     }
 }

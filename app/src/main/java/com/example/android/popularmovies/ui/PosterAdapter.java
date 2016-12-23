@@ -16,6 +16,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
 
@@ -42,17 +43,20 @@ public class PosterAdapter extends CursorAdapter {
 
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, Context context, Cursor data) {
 
         ButterKnife.bind(this, view);
 
-        int tIndex = cursor.getColumnIndex(MovieEntry.COL_TITLE);
-        final String title = cursor.getString(tIndex);
+        Movie movie = new Movie(data);
+        movie.print();
 
-        int pIndex = cursor.getColumnIndex(MovieEntry.COL_POSTER_PATH);
+        int tIndex = data.getColumnIndex(MovieEntry.COL_TITLE);
+        final String title = data.getString(tIndex);
+
+        int pIndex = data.getColumnIndex(MovieEntry.COL_POSTER_PATH);
 
         Glide.with(context)
-                .load(POSTER_ROOT + cursor.getString(pIndex))
+                .load(POSTER_ROOT + data.getString(pIndex))
                 .placeholder(R.drawable.poster_placeholder)
                 .centerCrop()
                 .into(poster);

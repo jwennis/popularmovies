@@ -3,6 +3,8 @@ package com.example.android.popularmovies.data;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.database.Cursor;
+import android.util.Log;
 
 import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 
@@ -25,6 +27,7 @@ public class Movie {
     private double vote_average;
     private double popularity;
     private int[] genre_ids;
+    private String genreString;
 
     private boolean isPopular;
     private boolean isTopRated;
@@ -46,6 +49,134 @@ public class Movie {
 
     }
 
+    public Movie(Cursor data) {
+
+        id = data.getInt(data.getColumnIndex(MovieEntry.COL_TMDB_ID));
+        title = data.getString(data.getColumnIndex(MovieEntry.COL_TITLE));
+        release_date = data.getString(data.getColumnIndex(MovieEntry.COL_RELEASE_DATE));
+        overview = data.getString(data.getColumnIndex(MovieEntry.COL_OVERVIEW));
+        poster_path = data.getString(data.getColumnIndex(MovieEntry.COL_POSTER_PATH));
+        backdrop_path = data.getString(data.getColumnIndex(MovieEntry.COL_BACKDROP_PATH));
+        vote_count = data.getInt(data.getColumnIndex(MovieEntry.COL_VOTE_COUNT));
+        vote_average = data.getDouble(data.getColumnIndex(MovieEntry.COL_VOTE_AVERAGE));
+        popularity = data.getDouble(data.getColumnIndex(MovieEntry.COL_POPULARITY));
+        genreString = data.getString(data.getColumnIndex(MovieEntry.COL_GENRES));
+
+        int col_imdb_id = data.getColumnIndex(MovieEntry.COL_IMDB_ID);
+
+        if(col_imdb_id > -1) {
+
+            imdb_id = data.getString(col_imdb_id);
+        }
+
+        int col_tagline = data.getColumnIndex(MovieEntry.COL_TAGLINE);
+
+        if(col_tagline > -1) {
+
+            tagline = data.getString(col_tagline);
+        }
+
+        int col_runtime = data.getColumnIndex(MovieEntry.COL_RUNTIME);
+
+        if(col_runtime > -1) {
+
+            runtime = data.getInt(col_runtime);
+        }
+
+        int col_budget = data.getColumnIndex(MovieEntry.COL_BUDGET);
+
+        if(col_budget > -1) {
+
+            budget = data.getInt(col_budget);
+        }
+
+        int col_revenue = data.getColumnIndex(MovieEntry.COL_REVENUE);
+
+        if(col_revenue > -1) {
+
+            revenue = data.getInt(col_revenue);
+        }
+
+        int col_is_popular = data.getColumnIndex(MovieEntry.COL_IS_POPULAR);
+
+        if(col_is_popular > -1) {
+
+            isPopular = data.getInt(col_is_popular) == 1;
+        }
+
+        int col_is_top_rated = data.getColumnIndex(MovieEntry.COL_IS_TOP_RATED);
+
+        if(col_is_top_rated > -1) {
+
+            isTopRated = data.getInt(col_is_top_rated) == 1;
+        }
+
+        int col_is_now_playing = data.getColumnIndex(MovieEntry.COL_IS_NOW_PLAYING);
+
+        if(col_is_now_playing > -1) {
+
+            isNowPlaying = data.getInt(col_is_now_playing) == 1;
+        }
+
+        int col_is_upcoming = data.getColumnIndex(MovieEntry.COL_IS_UPCOMING);
+
+        if(col_is_upcoming > -1) {
+
+            isUpcoming = data.getInt(col_is_upcoming) == 1;
+        }
+
+        int col_is_favorite = data.getColumnIndex(MovieEntry.COL_IS_FAVORITE);
+
+        if(col_is_favorite > -1) {
+
+            isFavorite = data.getInt(col_is_favorite) == 1;
+        }
+    }
+
+    public void print() {
+
+        Log.v("MOVIES", "[ID] " + id);
+        Log.v("MOVIES", "[TITLE] " + title);
+        Log.v("MOVIES", "[RELEASED] " + release_date);
+        Log.v("MOVIES", "[SYNOPSIS] " + overview);
+        Log.v("MOVIES", "[POSTER] " + poster_path);
+        Log.v("MOVIES", "[BACKDROP] " + backdrop_path);
+        Log.v("MOVIES", "[# VOTES] " + vote_count);
+        Log.v("MOVIES", "[RATING] " + vote_average);
+        Log.v("MOVIES", "[POPULARITY] " + popularity);
+        Log.v("MOVIES", "[GENRES] " + getGenres());
+
+        if(imdb_id != null && !imdb_id.isEmpty()) {
+
+            Log.v("MOVIES", "[IMDB ID] " + imdb_id);
+        }
+
+        if(tagline != null && !tagline.isEmpty()) {
+
+            Log.v("MOVIES", "[TAGLINE] " + tagline);
+        }
+
+        if(runtime > 0) {
+
+            Log.v("MOVIES", "[RUNTIME] " + runtime);
+        }
+
+        if(budget > 0) {
+
+            Log.v("MOVIES", "[BUDGET] " + budget);
+        }
+
+        if(revenue > 0) {
+
+            Log.v("MOVIES", "[REVENUE] " + revenue);
+        }
+
+        Log.v("MOVIES", "[POPULAR?] " + isPopular);
+        Log.v("MOVIES", "[TOP RATED?] " + isTopRated);
+        Log.v("MOVIES", "[NOW PLAYING?] " + isNowPlaying);
+        Log.v("MOVIES", "[UPCOMING?] " + isUpcoming);
+        Log.v("MOVIES", "[FAVORITE?] " + isFavorite);
+    }
 
     public String getTitle() {
 
@@ -54,6 +185,11 @@ public class Movie {
 
 
     public String getGenres() {
+
+        if(genreString != null && !genreString.isEmpty()) {
+
+            return genreString;
+        }
 
         StringBuilder builder = new StringBuilder();
 
@@ -90,7 +226,7 @@ public class Movie {
             }
         }
 
-        return builder.toString();
+        return genreString =  builder.toString();
     }
 
 

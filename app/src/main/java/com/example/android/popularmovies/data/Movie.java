@@ -1,5 +1,6 @@
 package com.example.android.popularmovies.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -45,8 +46,8 @@ public class Movie implements Parcelable {
     private int budget;
     private int revenue;
 
-    private List<String> trailers; // trailers.youtube[] { String source }
-    private List<String> reviews; // reviews.results[] { ??? }
+    private Trailer trailers;
+    private Review reviews;
 
 
     public Movie() {
@@ -210,6 +211,15 @@ public class Movie implements Parcelable {
     }
 
 
+    // Accessors
+
+
+    public int getId() {
+
+        return id;
+    }
+
+
     public String getTitle() {
 
         return title;
@@ -298,6 +308,18 @@ public class Movie implements Parcelable {
     }
 
 
+    public List<Trailer> getTrailers() {
+
+        return trailers.get();
+    }
+
+
+    public List<String> getReviews() {
+
+        return reviews.get();
+    }
+
+
     public ContentValues getValues() {
 
         ContentValues values = new ContentValues();
@@ -367,11 +389,23 @@ public class Movie implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
+    // Parcelable
 
-        return 0;
-    }
+
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+
+        @Override
+        public Movie createFromParcel(Parcel parcel) {
+
+            return new Movie(parcel);
+        }
+
+        @Override
+        public Movie[] newArray(int i) {
+
+            return new Movie[i];
+        }
+    };
 
 
     @Override
@@ -400,18 +434,61 @@ public class Movie implements Parcelable {
     }
 
 
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+    @Override
+    public int describeContents() {
 
-        @Override
-        public Movie createFromParcel(Parcel parcel) {
+        return 0;
+    }
 
-            return new Movie(parcel);
+
+    public class Trailer {
+
+        private List<Trailer> youtube;
+        private String name;
+        private String source;
+
+
+        public List<Trailer> get() {
+
+            return youtube;
         }
 
-        @Override
-        public Movie[] newArray(int i) {
 
-            return new Movie[i];
+        public String getName() {
+
+            return name;
         }
-    };
+
+
+        public String getSource() {
+
+            return source;
+        }
+    }
+
+
+    public class Review {
+
+        private List<Review> results;
+        private String content;
+
+
+        public List<String> get() {
+
+            List<String> all = new ArrayList<>();
+
+            for(Review review : results) {
+
+                all.add(review.getContent());
+            }
+
+            return all;
+        }
+
+
+        public String getContent() {
+
+            return content;
+        }
+    }
 }

@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         startActivity(detailIntent);
                     }
                 });
+
             } else {
 
                 mAdapter.swapCursor(data);

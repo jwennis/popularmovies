@@ -11,11 +11,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 
+import com.example.android.popularmovies.async.MovieApiTask;
 import com.example.android.popularmovies.data.Movie;
+
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
     private Movie mMovie;
+    private boolean mIsInitialized;
 
     @BindString(R.string.backdrop_root)
     String BACKDROP_ROOT;
@@ -55,9 +59,13 @@ public class DetailActivity extends AppCompatActivity {
 
             mMovie = savedInstanceState.getParcelable(Movie.PARAM_MOVIE_PARCEL);
 
+            mIsInitialized = true;
+
         } else {
 
             mMovie = getIntent().getExtras().getParcelable(Movie.PARAM_MOVIE_PARCEL);
+
+            mIsInitialized = false;
         }
 
         bindMovie();
@@ -109,5 +117,36 @@ public class DetailActivity extends AppCompatActivity {
 
         synopsis.setText(mMovie.getSynopsis());
         genres.setText(mMovie.getGenres());
+
+        if(mIsInitialized) {
+
+            // bind additional movie info
+
+        } else {
+
+            fetchMovie();
+        }
+    }
+
+    private void fetchMovie() {
+
+        MovieApiTask task = new MovieApiTask(Integer.toString(mMovie.getId())) {
+
+            @Override
+            protected void onPostExecute(List<Movie> movies) {
+
+//                ContentValues[] values = new ContentValues[ movies.size() ];
+//
+//                for(int i = 0; i < movies.size(); i++) {
+//
+//                    values[i] = movies.get(i).getValues();
+//                    values[i].put(mFilter, "1");
+//                }
+//
+//                getContentResolver().bulkInsert(MovieEntry.CONTENT_URI, values);
+//
+//                reload();
+            }
+        };
     }
 }

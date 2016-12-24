@@ -15,8 +15,7 @@
 
         <ImageView
             android:id="@+id/detail_backdrop"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            style="@style/detail_backdrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,33 +24,18 @@
 
             <ImageView
                 android:id="@+id/detail_poster"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_weight="2"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp" />
+                style="@style/detail_poster" />
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:layout_marginTop="100dp"
-                android:orientation="vertical">
+                style="@style/detail_header">
 
                 <TextView
                     android:id="@+id/detail_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="#333333" />
+                    style="@style/detail_title" />
 
                 <TextView
                     android:id="@+id/detail_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#333333" />
+                    style="@style/detail_normal_text" />
 
             </LinearLayout>
 
@@ -61,19 +45,13 @@
 
     <TextView
         android:id="@+id/detail_synopsis"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="14sp"
+        android:padding="@dimen/margin_large"
         android:textStyle="italic"
-        android:textColor="#333333" />
+        style="@style/detail_normal_text" />
 
     <TextView
         android:id="@+id/detail_genres"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:textSize="14sp"
-        android:textColor="#333333" />
+        android:paddingStart="@dimen/margin_large"
+        style="@style/detail_normal_text" />
 
 </LinearLayout>

@@ -1,7 +1,12 @@
 package com.example.android.popularmovies;
 
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,8 +41,20 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.detail_title)
     TextView title;
 
+    @BindView(R.id.detail_tagline)
+    TextView tagline;
+
+    @BindView(R.id.detail_runtime)
+    TextView runtime;
+
     @BindView(R.id.detail_rating)
     TextView rating;
+
+    @BindView(R.id.detail_budget)
+    TextView budget;
+
+    @BindView(R.id.detail_revenue)
+    TextView revenue;
 
     @BindView(R.id.detail_synopsis)
     TextView synopsis;
@@ -109,24 +126,47 @@ public class DetailActivity extends AppCompatActivity {
                 .fitCenter()
                 .into(poster);
 
-        title.setText(String.format("%s (%d)",
-                mMovie.getTitle(), mMovie.getYear()));
+        title.setText(String.format("%s (%d)", mMovie.getTitle(), mMovie.getYear()));
 
-        rating.setText(String.format("Rating: %.1f (%d votes)",
-                mMovie.getRating(), mMovie.getNumVotes()));
-
-        synopsis.setText(mMovie.getSynopsis());
-        genres.setText(mMovie.getGenres());
+        genres.setText(buildLabel("Genres", mMovie.getGenres()));
+        synopsis.setText(buildLabel("Synopsis", mMovie.getSynopsis()));
+        rating.setText(buildLabel("Rating", String.format("%.1f (%d votes)",
+                mMovie.getRating(), mMovie.getNumVotes())));
 
         if(mIsInitialized) {
 
-            // bind additional movie info
+            tagline.setText(mMovie.getTagline());
+
+            runtime.setText(buildLabel("Runtime", mMovie.getRuntime() + " min"));
+            budget.setText(buildLabel("Budget", format$(mMovie.getBudget())));
+            revenue.setText(buildLabel("Revenue", format$(mMovie.getRevenue())));
+
+            // TODO: link to IMDB + list trailers, reviews
 
         } else {
 
             fetchMovie();
         }
     }
+
+
+    private SpannableStringBuilder buildLabel(String label, String value) {
+
+        SpannableStringBuilder builder =
+                new SpannableStringBuilder(label + " " + value);
+
+        builder.setSpan(new StyleSpan(Typeface.BOLD),
+                0, label.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return builder;
+    }
+
+
+    private String format$(int value) {
+
+        return "$" + String.format("%,d", value);
+    }
+
 
     private void fetchMovie() {
 
@@ -135,17 +175,11 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(List<Movie> movies) {
 
-//                ContentValues[] values = new ContentValues[ movies.size() ];
-//
-//                for(int i = 0; i < movies.size(); i++) {
-//
-//                    values[i] = movies.get(i).getValues();
-//                    values[i].put(mFilter, "1");
-//                }
-//
-//                getContentResolver().bulkInsert(MovieEntry.CONTENT_URI, values);
-//
-//                reload();
+                mMovie.mergeDetails(movies.get(0));
+
+                mIsInitialized = true;
+
+                bindMovie();
             }
         };
     }

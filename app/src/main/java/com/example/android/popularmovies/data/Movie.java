@@ -203,6 +203,22 @@ public class Movie implements Parcelable {
             Log.v("MOVIES", "[REVENUE] " + revenue);
         }
 
+        if(trailers != null) {
+
+            for(Trailer trailer : getTrailers()) {
+
+                Log.v("MOVIES", "[TRAILER] " + trailer.getName() + " / " + trailer.getSource());
+            }
+        }
+
+        if(reviews != null) {
+
+            for (String review : getReviews()) {
+
+                Log.v("MOVIES", "[REVIEW] " + review);
+            }
+        }
+
         Log.v("MOVIES", "[POPULAR?] " + isPopular);
         Log.v("MOVIES", "[TOP RATED?] " + isTopRated);
         Log.v("MOVIES", "[NOW PLAYING?] " + isNowPlaying);
@@ -262,11 +278,45 @@ public class Movie implements Parcelable {
     }
 
 
+    public String getImdbId() {
+
+        return imdb_id;
+    }
+
+
+    public String getTagline() {
+
+        return tagline;
+    }
+
+
+    public int getRuntime() {
+
+        return runtime;
+    }
+
+
+    public int getBudget() {
+
+        return budget;
+    }
+
+
+    public int getRevenue() {
+
+        return revenue;
+    }
+
+
     public String getGenres() {
 
         if(genreString != null && !genreString.isEmpty()) {
 
             return genreString;
+
+        } else if (genre_ids == null) {
+
+            return "";
         }
 
         StringBuilder builder = new StringBuilder();
@@ -386,6 +436,19 @@ public class Movie implements Parcelable {
         }
 
         return values;
+    }
+
+
+    // Mutators
+
+
+    public void mergeDetails(Movie details) {
+
+        imdb_id = details.getImdbId();
+        tagline = details.getTagline();
+        runtime = details.getRuntime();
+        budget = details.getBudget();
+        revenue = details.getRevenue();
     }
 
 

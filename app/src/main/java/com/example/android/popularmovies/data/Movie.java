@@ -370,6 +370,12 @@ public class Movie implements Parcelable {
     }
 
 
+    public Review getReviewObject() {
+
+        return reviews;
+    }
+
+
     public ContentValues getValues() {
 
         ContentValues values = new ContentValues();
@@ -449,6 +455,7 @@ public class Movie implements Parcelable {
         runtime = details.getRuntime();
         budget = details.getBudget();
         revenue = details.getRevenue();
+        reviews = details.getReviewObject();
     }
 
 

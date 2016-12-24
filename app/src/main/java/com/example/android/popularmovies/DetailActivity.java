@@ -1,13 +1,20 @@
 package com.example.android.popularmovies;
 
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,6 +68,9 @@ public class DetailActivity extends AppCompatActivity {
 
     @BindView(R.id.detail_genres)
     TextView genres;
+
+    @BindView(R.id.detail_reviews)
+    RecyclerView reviews;
 
 
     @Override
@@ -141,7 +151,9 @@ public class DetailActivity extends AppCompatActivity {
             budget.setText(buildLabel("Budget", format$(mMovie.getBudget())));
             revenue.setText(buildLabel("Revenue", format$(mMovie.getRevenue())));
 
-            // TODO: link to IMDB + list trailers, reviews
+            bindReviews();
+
+            // TODO: link to IMDB + list trailers
 
         } else {
 
@@ -182,5 +194,52 @@ public class DetailActivity extends AppCompatActivity {
                 bindMovie();
             }
         };
+    }
+
+    private void bindReviews() {
+
+        final List<String> list = mMovie.getReviews();
+
+        reviews.setLayoutManager(new LinearLayoutManager(this));
+        reviews.setItemAnimator(new DefaultItemAnimator());
+
+        reviews.setAdapter(new RecyclerView.Adapter<ReviewHolder>() {
+
+            @Override
+            public ReviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+                return new ReviewHolder(LayoutInflater.from(DetailActivity.this)
+                        .inflate(android.R.layout.simple_list_item_1, parent, false));
+            }
+
+            @Override
+            public void onBindViewHolder(ReviewHolder holder, int position) {
+
+                holder.text.setText(list.get(position));
+            }
+
+            @Override
+            public int getItemCount() {
+
+                return list.size();
+            }
+        });
+    }
+
+    public class ReviewHolder extends RecyclerView.ViewHolder {
+
+        TextView text;
+
+        public ReviewHolder(View itemView) {
+
+            super(itemView);
+
+            text = (TextView) itemView;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                text.setTextAppearance(R.style.detail_normal_text);
+            }
+        }
     }
 }

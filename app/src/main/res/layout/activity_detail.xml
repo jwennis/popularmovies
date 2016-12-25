@@ -84,6 +84,7 @@
 
             <TextView
                 android:text="@string/detail_label_reviews"
+                android:layout_marginStart="@dimen/margin_medium"
                 style="@style/detail_heading" />
 
             <android.support.v7.widget.RecyclerView

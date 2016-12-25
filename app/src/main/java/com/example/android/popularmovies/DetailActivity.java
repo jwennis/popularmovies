@@ -1,10 +1,15 @@
 package com.example.android.popularmovies;
 
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -25,7 +30,9 @@ import com.bumptech.glide.Glide;
 
 import com.example.android.popularmovies.async.MovieApiTask;
 import com.example.android.popularmovies.data.Movie;
+import com.example.android.popularmovies.ui.ReviewAdapter;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
@@ -198,48 +205,11 @@ public class DetailActivity extends AppCompatActivity {
 
     private void bindReviews() {
 
-        final List<String> list = mMovie.getReviews();
+        ReviewAdapter adapter = new ReviewAdapter(mMovie.getReviews());
 
         reviews.setLayoutManager(new LinearLayoutManager(this));
         reviews.setItemAnimator(new DefaultItemAnimator());
-
-        reviews.setAdapter(new RecyclerView.Adapter<ReviewHolder>() {
-
-            @Override
-            public ReviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-                return new ReviewHolder(LayoutInflater.from(DetailActivity.this)
-                        .inflate(android.R.layout.simple_list_item_1, parent, false));
-            }
-
-            @Override
-            public void onBindViewHolder(ReviewHolder holder, int position) {
-
-                holder.text.setText(list.get(position));
-            }
-
-            @Override
-            public int getItemCount() {
-
-                return list.size();
-            }
-        });
+        reviews.setAdapter(adapter);
     }
 
-    public class ReviewHolder extends RecyclerView.ViewHolder {
-
-        TextView text;
-
-        public ReviewHolder(View itemView) {
-
-            super(itemView);
-
-            text = (TextView) itemView;
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                text.setTextAppearance(R.style.detail_normal_text);
-            }
-        }
-    }
 }

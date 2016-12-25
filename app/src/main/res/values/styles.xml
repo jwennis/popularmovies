@@ -40,7 +40,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_small</item>
         <item name="android:layout_marginBottom">@dimen/margin_small</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/almostBlack</item>
     </style>
@@ -60,6 +60,13 @@
         <item name="android:paddingBottom">@dimen/margin_xxlarge</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/almostBlack</item>
+    </style>
+
+    <style name="detail_list">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:nestedScrollingEnabled">false</item>
     </style>
 
 </resources>

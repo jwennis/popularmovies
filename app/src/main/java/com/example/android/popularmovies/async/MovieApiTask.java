@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.android.popularmovies.BuildConfig;
 import com.example.android.popularmovies.data.Movie;
@@ -93,6 +94,8 @@ public class MovieApiTask extends AsyncTask<String, Void, List<Movie>> {
                         tokenType = new TypeToken<Movie>(){}.getType();
 
                         results.add((Movie) new Gson().fromJson(jsonString, tokenType));
+
+                        //Log.v("MOVIES", "# trailers = " + results.get(0).getTrailers().size());
                     }
                 }
             }

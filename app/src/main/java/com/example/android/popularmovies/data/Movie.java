@@ -364,13 +364,19 @@ public class Movie implements Parcelable {
     }
 
 
+    public Trailer getTrailersObject() {
+
+        return trailers;
+    }
+
+
     public List<String> getReviews() {
 
         return reviews.get();
     }
 
 
-    public Review getReviewObject() {
+    public Review getReviewsObject() {
 
         return reviews;
     }
@@ -455,7 +461,8 @@ public class Movie implements Parcelable {
         runtime = details.getRuntime();
         budget = details.getBudget();
         revenue = details.getRevenue();
-        reviews = details.getReviewObject();
+        trailers = details.getTrailersObject();
+        reviews = details.getReviewsObject();
     }
 
 

@@ -13,7 +13,9 @@
 
     <string name="poster_root">https://image.tmdb.org/t/p/w500</string>
     <string name="backdrop_root">https://image.tmdb.org/t/p/w1000</string>
+    <string name="youtube_root">https://youtube.com/watch?v=</string>
 
+    <string name="detail_label_trailers">Trailers</string>
     <string name="detail_label_reviews">Reviews</string>
 
 </resources>

@@ -83,16 +83,20 @@
                 style="@style/detail_normal_text" />
 
             <TextView
+                android:text="@string/detail_label_trailers"
+                style="@style/detail_heading" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/detail_trailers"
+                style="@style/detail_list" />
+
+            <TextView
                 android:text="@string/detail_label_reviews"
-                android:layout_marginStart="@dimen/margin_medium"
                 style="@style/detail_heading" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/detail_reviews"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:nestedScrollingEnabled="false" />
+                style="@style/detail_list" />
 
         </LinearLayout>
 

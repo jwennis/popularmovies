@@ -1,25 +1,17 @@
 package com.example.android.popularmovies;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
+import java.util.List;
+
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,9 +23,8 @@ import com.bumptech.glide.Glide;
 import com.example.android.popularmovies.async.MovieApiTask;
 import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.ui.ReviewAdapter;
+import com.example.android.popularmovies.ui.TrailerAdapter;
 
-import java.util.Arrays;
-import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -75,6 +66,9 @@ public class DetailActivity extends AppCompatActivity {
 
     @BindView(R.id.detail_genres)
     TextView genres;
+
+    @BindView(R.id.detail_trailers)
+    RecyclerView trailers;
 
     @BindView(R.id.detail_reviews)
     RecyclerView reviews;
@@ -158,9 +152,15 @@ public class DetailActivity extends AppCompatActivity {
             budget.setText(buildLabel("Budget", format$(mMovie.getBudget())));
             revenue.setText(buildLabel("Revenue", format$(mMovie.getRevenue())));
 
-            bindReviews();
+            trailers.setLayoutManager(new LinearLayoutManager(this));
+            trailers.setItemAnimator(new DefaultItemAnimator());
+            trailers.setAdapter(new TrailerAdapter(mMovie.getTrailers()));
 
-            // TODO: link to IMDB + list trailers
+            reviews.setLayoutManager(new LinearLayoutManager(this));
+            reviews.setItemAnimator(new DefaultItemAnimator());
+            reviews.setAdapter(new ReviewAdapter(mMovie.getReviews()));
+
+            // TODO: link to IMDB
 
         } else {
 
@@ -202,14 +202,4 @@ public class DetailActivity extends AppCompatActivity {
             }
         };
     }
-
-    private void bindReviews() {
-
-        ReviewAdapter adapter = new ReviewAdapter(mMovie.getReviews());
-
-        reviews.setLayoutManager(new LinearLayoutManager(this));
-        reviews.setItemAnimator(new DefaultItemAnimator());
-        reviews.setAdapter(adapter);
-    }
-
 }

@@ -308,6 +308,12 @@ public class Movie implements Parcelable {
     }
 
 
+    public boolean isFavorite() {
+
+        return isFavorite;
+    }
+
+
     public String getGenres() {
 
         if(genreString != null && !genreString.isEmpty()) {
@@ -450,6 +456,11 @@ public class Movie implements Parcelable {
         return values;
     }
 
+
+    public void toggleFavorite() {
+
+        isFavorite = !isFavorite;
+    }
 
     // Mutators
 

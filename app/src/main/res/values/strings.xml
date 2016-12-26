@@ -8,6 +8,8 @@
     <string name="action_now_playing">Now Playing</string>
     <string name="action_upcoming">Upcoming</string>
     <string name="action_favorites">Favorites</string>
+    <string name="action_favorite">Favorite</string>
+    <string name="action_unfavorite">Unfavorite</string>
 
     <string name="content_authority">com.example.android.popularmovies</string>
 
@@ -17,5 +19,8 @@
 
     <string name="detail_label_trailers">Trailers</string>
     <string name="detail_label_reviews">Reviews</string>
+
+    <string name="detail_toast_favorited">Favorited</string>
+    <string name="detail_toast_unfavorited">Unfavorited</string>
 
 </resources>

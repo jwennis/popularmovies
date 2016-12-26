@@ -2,7 +2,9 @@ package com.example.android.popularmovies;
 
 import java.util.List;
 
+import android.content.ContentValues;
 import android.graphics.Typeface;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +25,7 @@ import com.bumptech.glide.Glide;
 
 import com.example.android.popularmovies.async.MovieApiTask;
 import com.example.android.popularmovies.data.Movie;
+import com.example.android.popularmovies.data.MovieContract.MovieEntry;
 import com.example.android.popularmovies.ui.ReviewAdapter;
 import com.example.android.popularmovies.ui.TrailerAdapter;
 
@@ -110,6 +114,35 @@ public class DetailActivity extends AppCompatActivity {
 
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.detail, menu);
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem toggleFavorite = menu.findItem(R.id.action_favorite);
+
+        if(mMovie.isFavorite()) {
+
+            toggleFavorite.setTitle(R.string.action_unfavorite);
+            toggleFavorite.setIcon(R.drawable.ic_menu_favorited);
+
+        } else {
+
+            toggleFavorite.setTitle(R.string.action_favorite);
+            toggleFavorite.setIcon(R.drawable.ic_menu_favorite);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(item.getItemId() == android.R.id.home) {
@@ -117,6 +150,22 @@ public class DetailActivity extends AppCompatActivity {
             super.onBackPressed();
 
             return true;
+
+        } else if (item.getItemId() == R.id.action_favorite) {
+
+            mMovie.toggleFavorite();
+
+            ContentValues values = new ContentValues();
+            values.put(MovieEntry.COL_IS_FAVORITE, mMovie.isFavorite() ? "1" : "0");
+
+            getContentResolver().update(MovieEntry.CONTENT_URI,values,
+                    MovieEntry.COL_TMDB_ID + " = ?", new String[] { Integer.toString(mMovie.getId()) });
+
+            invalidateOptionsMenu();
+
+            Snackbar.make(findViewById(android.R.id.content),
+                    mMovie.isFavorite() ? R.string.detail_toast_favorited : R.string.detail_toast_unfavorited,
+                    Snackbar.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);

@@ -13,9 +13,15 @@
 
     <item
         android:id="@+id/action_share"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:title="@string/action_share"
         android:icon="@drawable/ic_menu_share"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_imdb"
+        android:orderInCategory="102"
+        android:title="@string/action_imdb"
+        app:showAsAction="never" />
 
 </menu>

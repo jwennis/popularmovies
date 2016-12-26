@@ -11,12 +11,14 @@
     <string name="action_favorite">Favorite</string>
     <string name="action_unfavorite">Unfavorite</string>
     <string name="action_share">Share</string>
+    <string name="action_imdb">View more on IMDb</string>
 
     <string name="content_authority">com.example.android.popularmovies</string>
 
     <string name="poster_root">https://image.tmdb.org/t/p/w500</string>
     <string name="backdrop_root">https://image.tmdb.org/t/p/w1000</string>
     <string name="youtube_root">https://youtube.com/watch?v=</string>
+    <string name="imdb_root">http://www.imdb.com/title/</string>
 
     <string name="detail_label_trailers">Trailers</string>
     <string name="detail_label_reviews">Reviews</string>

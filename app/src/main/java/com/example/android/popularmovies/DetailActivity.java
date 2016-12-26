@@ -185,6 +185,13 @@ public class DetailActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(shareIntent, "Share link"));
             }
 
+            case R.id.action_imdb: {
+
+                Intent imdbIntent = new Intent(Intent.ACTION_VIEW);
+                imdbIntent.setData(Uri.parse(getString(R.string.imdb_root) + mMovie.getImdbId()));
+                startActivity(imdbIntent);
+            }
+
             default: {
 
                 return super.onOptionsItemSelected(item);

@@ -3,7 +3,9 @@ package com.example.android.popularmovies;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -145,30 +147,49 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == android.R.id.home) {
+        switch(item.getItemId()) {
 
-            super.onBackPressed();
+            case android.R.id.home: {
 
-            return true;
+                super.onBackPressed();
 
-        } else if (item.getItemId() == R.id.action_favorite) {
+                return true;
+            }
 
-            mMovie.toggleFavorite();
+            case R.id.action_favorite: {
 
-            ContentValues values = new ContentValues();
-            values.put(MovieEntry.COL_IS_FAVORITE, mMovie.isFavorite() ? "1" : "0");
+                mMovie.toggleFavorite();
 
-            getContentResolver().update(MovieEntry.CONTENT_URI,values,
-                    MovieEntry.COL_TMDB_ID + " = ?", new String[] { Integer.toString(mMovie.getId()) });
+                ContentValues values = new ContentValues();
+                values.put(MovieEntry.COL_IS_FAVORITE, mMovie.isFavorite() ? "1" : "0");
 
-            invalidateOptionsMenu();
+                getContentResolver().update(MovieEntry.CONTENT_URI,values,
+                        MovieEntry.COL_TMDB_ID + " = ?", new String[] { Integer.toString(mMovie.getId()) });
 
-            Snackbar.make(findViewById(android.R.id.content),
-                    mMovie.isFavorite() ? R.string.detail_toast_favorited : R.string.detail_toast_unfavorited,
-                    Snackbar.LENGTH_SHORT).show();
+                invalidateOptionsMenu();
+
+                Snackbar.make(findViewById(android.R.id.content),
+                        mMovie.isFavorite() ? R.string.detail_toast_favorited : R.string.detail_toast_unfavorited,
+                        Snackbar.LENGTH_SHORT).show();
+
+                return true;
+            }
+
+            case R.id.action_share: {
+
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,
+                        getString(R.string.youtube_root) + mMovie.getTrailers().get(0).getSource());
+
+                startActivity(Intent.createChooser(shareIntent, "Share link"));
+            }
+
+            default: {
+
+                return super.onOptionsItemSelected(item);
+            }
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
 

@@ -199,20 +199,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 mAdapter = new PosterAdapter(this, data);
                 poster_grid.setAdapter(mAdapter);
 
-                poster_grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-                        data.moveToPosition(position);
-
-                        Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
-                        detailIntent.putExtra(Movie.PARAM_MOVIE_PARCEL, new Movie(data));
-
-                        startActivity(detailIntent);
-                    }
-                });
-
             } else {
 
                 mAdapter.swapCursor(data);

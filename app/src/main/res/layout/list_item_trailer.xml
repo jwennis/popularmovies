@@ -17,6 +17,7 @@
 
     <TextView
         android:id="@+id/trailer_title"
+        android:paddingTop="0dp"
         style="@style/detail_normal_text" />
 
 </LinearLayout>

@@ -2,6 +2,11 @@
 
 Android Developer Nanodegree Project #2
 
+Popular Movies is an app that demonstrates the use of some common Android design patterns and techniques, as described below. Using [TheMovieDB.org API](https://developers.themoviedb.org/3/getting-started), the app entry point displays a grid of currently popular and historically top rated movie posters. Clicking a movie launches the detail view, displaying information about the movie, including trailers and reviews.
+
+<img src="https://raw.githubusercontent.com/jwennis/popularmovies/master/screens/2017-01-10%2019.15.37.png" width="300" />
+<img src="https://raw.githubusercontent.com/jwennis/popularmovies/master/screens/2017-01-10%2019.16.05.png" width="300" />
+
 Below are the project description and requirements.
 
 ## Stage 1:  Main Discovery Screen, A Details View, and Settings
